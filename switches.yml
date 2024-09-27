@@ -1,0 +1,24 @@
+has_discover_sw: "homeassistant/switch"
+mqtt_broker: "192.168.1.22"
+mqtt_user: ""
+mqtt_pass: ""
+switches:
+  - name: "Living Room Light"
+    unique_id: "switch_1"
+    device_id: "device_1"
+    manufacturer: "SmartHome"
+    model: "SH-Light"
+    device_name: "Living Room"
+  - name: "Bedroom Light"
+    unique_id: "switch_2"
+    device_id: "device_2"
+    manufacturer: "SmartHome"
+    model: "SH-Light"
+  - name: "Kitchen Light"
+    unique_id: "switch_3"
+    optimistic: true
+    retain: true
+    device_id: "device_3"
+    manufacturer: "SmartKitchen"
+    model: "SK-Light"
+

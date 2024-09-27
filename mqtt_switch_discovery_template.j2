@@ -1,0 +1,22 @@
+{% for switch in switches %}
+{
+  "name": "{{ switch.name }}",
+  "command_topic": "{{ has_discover_sw }}/{{ switch.unique_id }}/set",
+  "state_topic": "{{ has_discover_sw }}/{{ switch.unique_id }}/state",
+  "unique_id": "{{ switch.unique_id }}",
+  "payload_on": "{{ switch.payload_on | default('ON') }}",
+  "payload_off": "{{ switch.payload_off | default('OFF') }}",
+  "state_on": "{{ switch.state_on | default('ON') }}",
+  "state_off": "{{ switch.state_off | default('OFF') }}",
+  "optimistic": {{ switch.optimistic | default(false) | lower }},
+  "retain": {{ switch.retain | default(false) | lower }},
+  "device": {
+    "identifiers": ["{{ switch.device_id }}"],
+    "manufacturer": "{{ switch.manufacturer | default('Unknown') }}",
+    "model": "{{ switch.model | default('Generic Model') }}",
+    "name": "{{ switch.device_name | default(switch.name) }}"
+  }
+}
+{% if not loop.last %},{% endif %}
+{% endfor %}
+
