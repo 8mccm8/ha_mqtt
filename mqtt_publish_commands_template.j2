@@ -24,6 +24,16 @@ mosquitto_pub -h $MQTT_BROKER -t "{{ has_discover_sw }}/{{ switch.unique_id }}/s
 
 # Pause pour assurer une séquence propre
 sleep 1
+
+# Publier le message sur le topic command
+echo "Publishing command topic for {{ switch.name }}..."
+
+mosquitto_pub -h $MQTT_BROKER -t "{{ has_discover_sw }}/{{ switch.unique_id }}/set" \
+{% if mqtt_user %} -u $MQTT_USER -P $MQTT_PASS {% endif %} \
+-m '{{ switch.command_state | default("ON") }}'
+
+# Pause pour assurer une séquence propre
+sleep 1
 {% endfor %}
 echo "All commands executed."
 
