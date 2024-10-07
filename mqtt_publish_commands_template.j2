@@ -5,12 +5,25 @@ MQTT_USER="{{ mqtt_user | default('') }}"
 MQTT_PASS="{{ mqtt_pass | default('') }}"
 
 {% for switch in switches %}
-echo "Publishing for {{ switch.name }}..."
+echo "Publishing configuration for {{ switch.name }}..."
 
+# Publier la configuration du switch
 mosquitto_pub -h $MQTT_BROKER -t "{{ has_discover_sw }}/{{ switch.unique_id }}/config" \
 {% if mqtt_user %} -u $MQTT_USER -P $MQTT_PASS {% endif %} \
 -f output_{{ switch.unique_id }}.json
 
+# Pause pour éviter de surcharger le serveur MQTT
+sleep 1
+
+# Publier l'état initial sur le topic state
+echo "Publishing initial state for {{ switch.name }}..."
+
+mosquitto_pub -h $MQTT_BROKER -t "{{ has_discover_sw }}/{{ switch.unique_id }}/state" \
+{% if mqtt_user %} -u $MQTT_USER -P $MQTT_PASS {% endif %} \
+-m '{{ switch.initial_state | default("OFF") }}'
+
+# Pause pour assurer une séquence propre
+sleep 1
 {% endfor %}
 echo "All commands executed."
 

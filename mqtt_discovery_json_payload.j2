@@ -12,7 +12,7 @@
   "retain": {{ switch.retain | default(false) | lower }},
   "device": {
     "identifiers": ["{{ switch.device_id }}"],
-    "manufacturer": "{{ switch.manufacturer | default('Unknown') }}",
+    "manufacturer": "{{ manufacturer | default('Unknown') }}",
     "model": "{{ switch.model | default('Generic Model') }}",
     "name": "{{ switch.device_name | default(switch.name) }}"
   }
